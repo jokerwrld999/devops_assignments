@@ -9,7 +9,7 @@
     cd assignments/devops
     ```
    
-1. Необходим интерпретатор Python3.9 https://www.python.org/downloads/
+1. Необходим интерпретатор Python3
 
 1. Создание виртуального окружения и установка зависимостей
     ```bash
@@ -22,5 +22,5 @@
 1. Запуск сервера
     ```bash
     poetry shell
-    (.venv)> make run
+    ./gunicorn.sh
     ```
