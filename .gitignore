@@ -7,6 +7,8 @@ media/
 # Python
 .python-version
 .venv
+_pycache_/
+*.pyc
 
 # Javascript
 frontend/node_modules/

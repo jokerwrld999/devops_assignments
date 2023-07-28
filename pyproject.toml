@@ -2,7 +2,7 @@
 name = "hello-world"
 version = "0.0.1"
 description = ""
-authors = ["EclipseAltair <eclipsealtair@yandex.ru>"]
+authors = [""]
 
 [tool.poetry.dependencies]
 python = "^3.9"
