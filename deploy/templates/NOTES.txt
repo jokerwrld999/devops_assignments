@@ -1,0 +1,21 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To Access Your Release, Run The Following:
+
+-----------------------------------------------------------------------------------
+1. Minikube Tunnel
+-----------------------------------------------------------------------------------
+    $ minikube tunnel
+
+-----------------------------------------------------------------------------------
+2. Get SSH Tunnel Command
+-----------------------------------------------------------------------------------
+    externalIP=$(kubectl get services {{ .Values.appName }} --output jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    port=$(kubectl get services {{ .Values.appName }} --output jsonpath='{.spec.ports[0].port}')
+    serverIP=$(ip add | /usr/bin/grep "eth0" | /usr/bin/grep "inet" | awk '{print $2}' | cut -d '/' -f1)
+    username=$(whoami)
+
+    echo -e "## Run SSH Tunnel on Client: ## \n ssh -L CLIENT_PORT:$externalIP:$port $username@$serverIP"
+-----------------------------------------------------------------------------------
