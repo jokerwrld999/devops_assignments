@@ -1,4 +1,4 @@
-namespase: dev
+namespace: dev
 
 configmap:
   name: helmappconfigmapv1.1

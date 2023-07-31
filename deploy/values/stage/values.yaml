@@ -1,4 +1,4 @@
-namespase: stage
+namespace: stage
 
 configmap:
   name: helmappconfigmapv1.1

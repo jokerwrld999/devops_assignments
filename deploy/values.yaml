@@ -1,6 +1,6 @@
 appName: python-webapp
 
-namespase: default
+namespace: default
 
 configmap:
   name: helmappconfigmapv1.0

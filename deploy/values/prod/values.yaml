@@ -1,4 +1,4 @@
-namespase: prod
+namespace: prod
 
 configmap:
   name: helmappconfigmapv1.1
