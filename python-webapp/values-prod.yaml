@@ -1,5 +1,0 @@
-namespase: prod
-
-configmap:
-  data:
-    CUSTOM_HEADER: 'Welcome to Prod!'
