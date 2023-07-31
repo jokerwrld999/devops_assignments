@@ -26,6 +26,9 @@ FROM base
 
 WORKDIR /web
 
+ENV ENVIRONMENT=dev
+ENV ENVIRONMENT_FROM_SECRET=secret_dev
+
 RUN python -m pip install --no-cache-dir fastapi gunicorn uvicorn
 
 COPY --from=builder /app ./

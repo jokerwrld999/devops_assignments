@@ -1,0 +1,15 @@
+appName: python-webapp
+
+namespase: default
+
+configmap:
+  name: helmappconfigmapv1.0
+  data:
+    ENVIRONMENT=dev
+
+secret:
+  name: secretv1.0
+
+image:
+  name: ghcr.io/jokerwrld999/python-webapp
+  tag: latest

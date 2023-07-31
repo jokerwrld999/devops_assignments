@@ -12,3 +12,6 @@ _pycache_/
 
 # Javascript
 frontend/node_modules/
+
+# Helm
+.sops.yaml

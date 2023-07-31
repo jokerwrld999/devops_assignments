@@ -1,0 +1,7 @@
+namespase: stage
+
+configmap:
+  name: helmappconfigmapv1.1
+  data:
+    ENVIRONMENT=stage
+    ENVIRONMENT_FROM_SECRET=secret_stage

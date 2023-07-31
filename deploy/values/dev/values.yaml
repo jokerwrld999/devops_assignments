@@ -1,0 +1,7 @@
+namespase: dev
+
+configmap:
+  name: helmappconfigmapv1.1
+  data:
+    ENVIRONMENT=dev
+    ENVIRONMENT_FROM_SECRET=secret_dev
