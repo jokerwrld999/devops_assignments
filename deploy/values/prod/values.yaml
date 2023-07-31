@@ -3,5 +3,4 @@ namespase: prod
 configmap:
   name: helmappconfigmapv1.1
   data:
-    ENVIRONMENT=prod
-    ENVIRONMENT_FROM_SECRET=secret_prod
+    ENVIRONMENT: prod

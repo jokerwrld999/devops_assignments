@@ -5,7 +5,7 @@ namespase: default
 configmap:
   name: helmappconfigmapv1.0
   data:
-    ENVIRONMENT=dev
+    ENVIRONMENT: dev
 
 secret:
   name: secretv1.0
