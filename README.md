@@ -17,6 +17,10 @@ helm secrets install python-webapp-release-dev deploy --values deploy/values.yam
 helm secrets install python-webapp-release-stage deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
 helm secrets install python-webapp-release-prod deploy --values deploy/values.yaml -f deploy/values/prod/values.yaml -f deploy/values/prod/secrets.yaml -n prod
 
+helm secrets upgrade python-webapp-release-dev deploy --values deploy/values.yaml -f deploy/values/dev/values.yaml -f deploy/values/dev/secrets.yaml -n dev
+helm secrets upgrade python-webapp-release-stage deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
+helm secrets upgrade python-webapp-release-prod deploy --values deploy/values.yaml -f deploy/values/prod/values.yaml -f deploy/values/prod/secrets.yaml -n prod
+
 helm secrets upgrade python-webapp deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
 
 helm uninstall python-webapp-release-dev -n dev
