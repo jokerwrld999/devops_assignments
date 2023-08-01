@@ -9,3 +9,7 @@ helm secrets install python-webapp deploy --values deploy/values.yaml -f deploy/
 helm secrets upgrade python-webapp deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
 
 helm uninstall python-webapp -n stage
+
+
+http://192.168.1.11:9999/openapi.json
+http://192.168.1.11:9999/secret

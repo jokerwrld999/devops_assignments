@@ -16,7 +16,7 @@ RUN  apk update \
     && update-ca-certificates \
     && echo http://dl-cdn.alpinelinux.org/alpine/v3.6/main >> /etc/apk/repositories \
     && echo http://dl-cdn.alpinelinux.org/alpine/v3.6/community >> /etc/apk/repositories \
-    && apk add --update coreutils && rm -rf /var/cache/apk/*   \ 
+    && apk add --update coreutils && rm -rf /var/cache/apk/*   \
     && apk add --update python3 py3-pip \
     && apk add --no-cache nss \
     && rm -rf /var/cache/apk/*
@@ -26,8 +26,8 @@ FROM base
 
 WORKDIR /web
 
-ENV ENVIRONMENT=dev
-ENV ENVIRONMENT_FROM_SECRET=secret_dev
+ENV ENVIRONMENT=default
+ENV ENVIRONMENT_FROM_SECRET=secret_default
 
 RUN python -m pip install --no-cache-dir fastapi gunicorn uvicorn
 

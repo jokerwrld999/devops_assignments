@@ -5,7 +5,7 @@ namespace: default
 configmap:
   name: helmappconfigmapv1.0
   data:
-    ENVIRONMENT: dev
+    ENVIRONMENT: default
 
 secret:
   name: secretv1.0
