@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from app import config
 from app.routers import api_router
 
-app = FastAPI(title=config.ENVIRONMENT_FROM_SECRET)
+app = FastAPI(title="config.ENVIRONMENT_FROM_SECRET")
 
 
 @app.get("/")
