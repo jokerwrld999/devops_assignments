@@ -4,3 +4,7 @@ configmap:
   name: helmappconfigmapv1.1
   data:
     ENVIRONMENT: prod
+
+clusterissuer:
+  name: letsencrypt-prod
+  server: https://acme-v02.api.letsencrypt.org/directory

@@ -23,3 +23,9 @@ container:
 service:
   name: python-webapp-svc
   portNumber: 9999
+
+ingress:
+  className: nginx
+
+clusterissuer:
+  email: ifalaleev49@gamil.com
