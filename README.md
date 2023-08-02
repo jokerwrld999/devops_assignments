@@ -21,7 +21,7 @@ helm secrets upgrade python-webapp-release-dev deploy --values deploy/values.yam
 helm secrets upgrade python-webapp-release-stage deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
 helm secrets upgrade python-webapp-release-prod deploy --values deploy/values.yaml -f deploy/values/prod/values.yaml -f deploy/values/prod/secrets.yaml -n prod
 
-helm secrets upgrade python-webapp deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
+helm secrets upgrade python-webapp-release-stage deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
 
 helm uninstall python-webapp-release-dev -n dev
 helm uninstall python-webapp-release-stage -n stage
@@ -33,3 +33,8 @@ http://127.0.0.1:9999/secret
 
 http://127.0.0.1:9999/healthcheck
 helm ls --all-namespaces
+
+
+curl -H "Host:  dev.jokerwrld.com" http://$(minikube ip)/
+curl -H "Host: stage.jokerwrld.com" http://$(minikube ip)/
+curl -H "Host:  prod.jokerwrld.com" http://$(minikube ip)/

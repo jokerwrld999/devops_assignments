@@ -11,5 +11,15 @@ secret:
   name: secretv1.0
 
 image:
+  pullSecrets: ghcr-login-secret
   name: ghcr.io/jokerwrld999/python-webapp
   tag: latest
+
+container:
+  name: python-webapp-container
+  portName: http-web-svc
+  portNumber: 8000
+
+service:
+  name: python-webapp-svc
+  portNumber: 9999

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mydeployment
+  name: {{ .Values.appName }}-deployment
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.appName }}
@@ -16,9 +16,9 @@ spec:
         app: {{ .Values.appName }}
     spec: # Pod spec
       imagePullSecrets:
-      - name: ghcr-login-secret
+      - name: {{ .Values.image.pullSecrets }}
       containers:
-      - name: mycontainer
+      - name: {{ .Values.container.name }}
         image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
         env:
           - name: ENVIRONMENT_FROM_SECRET
@@ -27,20 +27,21 @@ spec:
                 name: {{ .Values.secret.name }}
                 key: ENVIRONMENT_FROM_SECRET
         ports:
-        - containerPort: 8000
+        - containerPort: {{ .Values.container.portNumber }}
+          name: {{ .Values.container.portName }}
         envFrom:
         - configMapRef:
             name: {{ .Values.configmap.name }}
         livenessProbe:
           httpGet:
             path: /healthcheck
-            port: 8000
+            port: {{ .Values.container.portNumber }}
           initialDelaySeconds: 10
           periodSeconds: 5
         readinessProbe:
           httpGet:
             path: /healthcheck
-            port: 8000
+            port: {{ .Values.container.portNumber }}
           initialDelaySeconds: 10
           periodSeconds: 5
         resources:
