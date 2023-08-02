@@ -5,13 +5,17 @@ metadata:
  namespace: {{ .Values.namespace }}
  annotations:
   nginx.ingress.kubernetes.io/rewrite-target: /
+  {{- if .Values.certmanagerEnabled }}
   cert-manager.io/cluster-issuer: {{ .Values.clusterissuer.name }}
+  {{ end }}
   kubernetes.io/ingress.class: {{ .Values.ingress.className }}
 spec:
+  {{- if .Values.certmanagerEnabled }}
   tls:
   - hosts:
     - {{ .Values.namespace }}.jokerwrld.win
     secretName: {{ .Values.appName }}-tls
+  {{ end }}
   rules:
     - host: {{ .Values.namespace }}.jokerwrld.win
       http:

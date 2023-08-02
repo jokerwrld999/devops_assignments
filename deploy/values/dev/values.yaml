@@ -4,3 +4,5 @@ configmap:
   name: helmappconfigmapv1.1
   data:
     ENVIRONMENT: dev
+
+certmanagerEnabled: false
