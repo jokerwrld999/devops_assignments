@@ -14,6 +14,8 @@ kubectl create secret docker-registry ghcr-login-secret --docker-server=https://
 kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=jokerwrld999 --docker-password=$CR_PAT --docker-email=ifalaleev49@gmail.com -n stage
 kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=jokerwrld999 --docker-password=$CR_PAT --docker-email=ifalaleev49@gmail.com -n prod
 
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.yaml
+
 helm secrets install python-webapp-release-dev deploy --values deploy/values.yaml -f deploy/values/dev/values.yaml -f deploy/values/dev/secrets.yaml -n dev --create-namespace
 helm secrets install python-webapp-release-stage deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage --create-namespace
 helm secrets install python-webapp-release-prod deploy --values deploy/values.yaml -f deploy/values/prod/values.yaml -f deploy/values/prod/secrets.yaml -n prod --create-namespace

@@ -6,10 +6,10 @@ Your release is named {{ .Release.Name }}.
 To Access Your Release, Run The Following:
 -----------------------------------------------------------------------------------
 
-    host=$(kubectl get ingress -n {{ .Values.namespace }} | grep {{ .Values.namespace }} | awk '{print $3}')
+  {{ .Release.Namespace }}_host=$(kubectl get ingress -n {{ .Release.Namespace }} | grep {{ .Release.Namespace }} | awk '{print $3}')
 
-    curl -H "Host: $host" http://$(minikube ip)/
-    OR
-    curl -H "Host: $host" -k https://$(minikube ip)/
+  curl -H "Host: $dev_host" http://$(minikube ip)/
+  OR
+  curl -H "Host: ${{ .Release.Namespace }}_host" -k https://$(minikube ip)/
 
 -----------------------------------------------------------------------------------

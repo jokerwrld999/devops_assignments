@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ .Values.configmap.name }}
-  namespace: {{ .Values.namespace }}
+  name: "{{ .Release.Name }}-configmap"
+  {{- template "mychart.labels" . }}
 data:
-  ENVIRONMENT: {{ .Values.configmap.data.ENVIRONMENT }}
+  ENVIRONMENT: {{ .Values.configmap.data.ENVIRONMENT | quote }}

@@ -1,16 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: "{{ .Values.namespace }}-{{ .Values.service.name }}"
-  namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.appName }}
+  name: "{{ .Release.Name }}-service"
+  {{- template "mychart.labels" . }}
 spec:
   ports:
   - name: http
     protocol: TCP
     port: {{ .Values.service.portNumber }}
-    targetPort: {{ .Values.container.portName }}
+    targetPort: {{ .Values.container.portName | quote }}
   selector:
-    app: {{ .Values.appName }}
+    {{- include "selectorLabels" . | indent 2 }}
   type: ClusterIP

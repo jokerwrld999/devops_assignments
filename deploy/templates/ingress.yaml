@@ -1,29 +1,29 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
- name: {{ .Values.appName }}-ingress
- namespace: {{ .Values.namespace }}
- annotations:
-  nginx.ingress.kubernetes.io/rewrite-target: /
-  {{- if .Values.certmanagerEnabled }}
-  cert-manager.io/cluster-issuer: {{ .Values.clusterissuer.name }}
-  {{ end }}
-  kubernetes.io/ingress.class: {{ .Values.ingress.className }}
+  name: "{{ .Release.Name }}-ingress"
+  {{- template "mychart.labels" . }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    {{- if ne .Release.Namespace "dev" }}
+    cert-manager.io/cluster-issuer: {{ .Values.clusterissuer.name | quote }}
+    {{ end }}
+    kubernetes.io/ingress.class: {{ .Values.ingress.className | quote }}
 spec:
   {{- if .Values.certmanagerEnabled }}
   tls:
   - hosts:
-    - {{ .Values.namespace }}.jokerwrld.win
-    secretName: {{ .Values.appName }}-tls
-  {{ end }}
+    - {{ .Release.Namespace }}.jokerwrld.win
+    secretName: {{ .Release.Name }}-tls
+  {{- end }}
   rules:
-    - host: {{ .Values.namespace }}.jokerwrld.win
+    - host: {{ .Release.Namespace }}.jokerwrld.win
       http:
         paths:
         - path: /
           pathType: Prefix
           backend:
             service:
-              name: "{{ .Values.namespace }}-{{ .Values.service.name }}"
+              name: "{{ .Release.Name }}-service"
               port:
                 number: {{ .Values.service.portNumber }}

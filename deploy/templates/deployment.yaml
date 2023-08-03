@@ -1,37 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.appName }}-deployment
-  namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.appName }}
+  name: "{{ .Release.Name }}-deployment"
+  {{- template "mychart.labels" . }}
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: {{ .Values.appName }}
+      {{- include "selectorLabels" . | indent 4 }}
   template:
     metadata:
-      labels:
-        app: {{ .Values.appName }}
-    spec: # Pod spec
+      {{- include "mychart.labels" . | indent 4 }}
+    spec:
       imagePullSecrets:
-      - name: {{ .Values.image.pullSecrets }}
+      - name: {{ .Values.image.pullSecrets | quote}}
       containers:
-      - name: {{ .Values.container.name }}
+      - name: {{ .Chart.Name | quote }}
         image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
         env:
-          - name: ENVIRONMENT_FROM_SECRET
+          - name: "ENVIRONMENT_FROM_SECRET"
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.secret.name }}
+                name: "{{ .Release.Name }}-secret"
                 key: ENVIRONMENT_FROM_SECRET
         ports:
-        - containerPort: {{ .Values.container.portNumber }}
-          name: {{ .Values.container.portName }}
+        - name: {{ .Values.container.portName | quote }}
+          containerPort: {{ .Values.container.portNumber }}
         envFrom:
         - configMapRef:
-            name: {{ .Values.configmap.name }}
+            name: "{{ .Release.Name }}-configmap"
         livenessProbe:
           httpGet:
             path: /healthcheck

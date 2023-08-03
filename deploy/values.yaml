@@ -1,14 +1,6 @@
-appName: python-webapp
-
-namespace: default
-
 configmap:
-  name: helmappconfigmapv1.0
   data:
     ENVIRONMENT: default
-
-secret:
-  name: secretv1.0
 
 image:
   pullSecrets: ghcr-login-secret
@@ -16,12 +8,10 @@ image:
   tag: latest
 
 container:
-  name: python-webapp-container
-  portName: http-web-svc
+  portName: pod-custom-port
   portNumber: 8000
 
 service:
-  name: python-webapp-svc
   portNumber: 9999
 
 ingress:
