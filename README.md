@@ -1,43 +1,91 @@
 # Тестовое задание DevOps разработчик
 
 1. [Первичная установка](docs/project_install.md)
-1. [Задание](docs/assignment.md)
+2. [Задание](docs/assignment.md)
+
+# Minikube installation
+Installation: https://minikube.sigs.k8s.io/docs/start/
+```
+minikube config set driver docker
+minikube start // stop
+minikube status
+```
+
+# Kubectl Insallation/Configuration
+Installation: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+```
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+cat ~/.kube/config  // kubectl config view
+alias k='kubectl'
+```
+
+# Helm Insallation/Configuration
+Installation: https://helm.sh/docs/intro/install/
+Cheat Sheet: https://helm.sh/docs/intro/cheatsheet/
+
+```
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+```
+
+# Plugins Installation
+```
+helm plugin install https://github.com/databus23/helm-diff
+helm plugin install https://github.com/aslafy-z/helm-git
+helm plugin install https://github.com/jkroepke/helm-secrets
+```
+
+# Secrets Encryption
+```
 helm secrets encrypt prod/secrets.yaml
+```
+# Namespace Creation
+```
+kubectl create namespace dev
+kubectl create namespace stage
+kubectl create namespace prod
+```
 
-k create namespace dev
-k create namespace stage
-k create namespace prod
-
+# Github Registry Login
+```
 export CR_PAT=
 
-kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=jokerwrld999 --docker-password=$CR_PAT --docker-email=ifalaleev49@gmail.com -n dev
-kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=jokerwrld999 --docker-password=$CR_PAT --docker-email=ifalaleev49@gmail.com -n stage
-kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=jokerwrld999 --docker-password=$CR_PAT --docker-email=ifalaleev49@gmail.com -n prod
+kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=jokerwrld999 --docker-password=$CR_PAT --docker-email=example@gmail.com -n dev
+kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=jokerwrld999 --docker-password=$CR_PAT --docker-email=example@gmail.com -n stage
+kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=jokerwrld999 --docker-password=$CR_PAT --docker-email=example@gmail.com -n prod
+```
 
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.3/cert-manager.yaml
+# Helmfile Deployment
+Installation: https://github.com/helmfile/helmfile/releases
 
-helm secrets install python-webapp-release-dev deploy --values deploy/values.yaml -f deploy/values/dev/values.yaml -f deploy/values/dev/secrets.yaml -n dev --create-namespace
-helm secrets install python-webapp-release-stage deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage --create-namespace
-helm secrets install python-webapp-release-prod deploy --values deploy/values.yaml -f deploy/values/prod/values.yaml -f deploy/values/prod/secrets.yaml -n prod --create-namespace
+## Development Environment
+```
+helmfile --file helmfile.yaml -e dev apply --interactive
+helmfile --file helmfile.yaml -e dev destroy
+```
 
-helm secrets upgrade python-webapp-release-dev deploy --values deploy/values.yaml -f deploy/values/dev/values.yaml -f deploy/values/dev/secrets.yaml -n dev
-helm secrets upgrade python-webapp-release-stage deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
-helm secrets upgrade python-webapp-release-prod deploy --values deploy/values.yaml -f deploy/values/prod/values.yaml -f deploy/values/prod/secrets.yaml -n prod
+## Staging Environment
+```
+helmfile --file helmfile.yaml -e stage apply --interactive
+helmfile --file helmfile.yaml -e stage destroy
+```
 
-helm secrets upgrade python-webapp-release-stage deploy --values deploy/values.yaml -f deploy/values/stage/values.yaml -f deploy/values/stage/secrets.yaml -n stage
+## Production Environment
+```
+helmfile --file helmfile.yaml -e prod apply --interactive
+helmfile --file helmfile.yaml -e prod destroy
+```
 
-helm uninstall python-webapp-release-dev -n dev
-helm uninstall python-webapp-release-stage -n stage
-helm uninstall python-webapp-release-prod -n prod
+# Debug/Healthcheck
+Service_IP/openapi.json
+Service_IP/secret
+Service_IP/healthcheck
 
-
-http://127.0.0.1:9999/openapi.json
-http://127.0.0.1:9999/secret
-
-http://127.0.0.1:9999/healthcheck
-helm ls --all-namespaces
-
-
-curl -H "Host:  dev.jokerwrld.com" http://$(minikube ip)/
-curl -H "Host: stage.jokerwrld.com" http://$(minikube ip)/
-curl -H "Host:  prod.jokerwrld.com" http://$(minikube ip)/
+# Access Commands
+```
+curl -H "Host: dev.jokerwrld.com" http://$(minikube ip)/
+curl -H "Host: stage.jokerwrld.com" -k https://$(minikube ip)/
+curl -H "Host: prod.jokerwrld.com" -k https://$(minikube ip)/
+```

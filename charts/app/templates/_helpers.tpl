@@ -5,7 +5,7 @@
   release: {{ .Release.Name | quote }}
 {{- end }}
 
-{{- define "mychart.labels" }}
+{{- define "labels" }}
   labels:
     {{- include "selectorLabels" . | indent 2 }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"

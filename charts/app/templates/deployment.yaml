@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: "{{ .Release.Name }}-deployment"
-  {{- template "mychart.labels" . }}
+  {{- template "labels" . }}
 spec:
   replicas: 2
   selector:
@@ -10,7 +10,7 @@ spec:
       {{- include "selectorLabels" . | indent 4 }}
   template:
     metadata:
-      {{- include "mychart.labels" . | indent 4 }}
+      {{- include "labels" . | indent 4 }}
     spec:
       imagePullSecrets:
       - name: {{ .Values.image.pullSecrets | quote}}
@@ -43,8 +43,8 @@ spec:
           periodSeconds: 5
         resources:
           requests:
+            cpu: "50m"
             memory: "16Mi"
-            cpu: "50m"    # 500milliCPUs (1/2 CPU)
           limits:
-            memory: "128Mi"
             cpu: "100m"
+            memory: "128Mi"

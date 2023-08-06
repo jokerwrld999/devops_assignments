@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "{{ .Release.Name }}-service"
-  {{- template "mychart.labels" . }}
+  {{- template "labels" . }}
 spec:
   ports:
   - name: http

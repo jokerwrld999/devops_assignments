@@ -1,0 +1,22 @@
+environments:
+  dev:
+  stage:
+  prod:
+
+---
+releases:
+- name: "python-webapp-release-{{ .Environment.Name }}"
+  namespace: {{ .Environment.Name }}
+  chart: app
+  values:
+    - app/values.yaml
+    - app/values/{{ .Environment.Name }}/values.yaml
+  secrets:
+    - app/values/{{ .Environment.Name }}/secrets.yaml
+  hooks:
+    - events: ["prepare"]
+      showlogs: true
+      command: ./config/pre-install.sh
+    - events: ["postuninstall"]
+      showlogs: true
+      command: ./config/cleanup.sh

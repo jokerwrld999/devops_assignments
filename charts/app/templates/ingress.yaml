@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: "{{ .Release.Name }}-ingress"
-  {{- template "mychart.labels" . }}
+  {{- template "labels" . }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     {{- if ne .Release.Namespace "dev" }}
@@ -14,7 +14,7 @@ spec:
   tls:
   - hosts:
     - {{ .Release.Namespace }}.jokerwrld.win
-    secretName: {{ .Release.Name }}-tls
+    secretName: "{{ .Release.Name }}-tls"
   {{- end }}
   rules:
     - host: {{ .Release.Namespace }}.jokerwrld.win
