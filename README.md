@@ -11,7 +11,7 @@ minikube start // stop
 minikube status
 ```
 
-# Kubectl Insallation/Configuration
+# Kubectl Installation/Configuration
 Installation: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 ```
@@ -22,7 +22,7 @@ cat ~/.kube/config  // kubectl config view
 alias k='kubectl'
 ```
 
-# Helm Insallation/Configuration
+# Helm Installation/Configuration
 Installation: https://helm.sh/docs/intro/install/
 Cheat Sheet: https://helm.sh/docs/intro/cheatsheet/
 
