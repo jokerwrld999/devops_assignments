@@ -1,51 +1,51 @@
-# Тестовое задание DevOps разработчик
+# DevOps Developer Test Task
 
-Имеется приложение hello-world написанное на Python + FastAPI, которое отдает строку `"Hello World <окружение>!"`.
+You have an application called "hello-world" written in Python with FastAPI, which returns the string "Hello World <environment>!", where `<environment>` may vary based on the context or settings.
 
-## Задачи
+## Tasks
 
-1. Завести публичный репозиторий на GitHub или аналогах, в который скопировать весь проект из директории `devops` и продолжать работу в нем
+1. Create a public repository on GitHub or its alternatives, copy the entire project from the `devops` directory, and continue working in it.
 
-2. Завернуть это приложение в Dockerfile, в котором
-   1. Установятся зависимости через poetry ([установка через poetry](project_install.md))
-   2. Будет запускаться приложение через web-сервер `gunicorn` ([gunicorn.sh](../gunicorn.sh))
+2. Wrap this application in a Dockerfile, in which
+   1. Dependencies will be installed via poetry ([installation via poetry](project_install.md))
+   2. The application will be launched via the `gunicorn` web server ([gunicorn.sh](../gunicorn.sh))
 
-3. Написать helm chart. в котором
-   1. [Configmap](../deploy/chart/templates/configmap.yaml) для переменных окружения ([ENVIRONMENT](../app/config.py))
-      1. Переменная `ENVIRONMENT` должна иметь значения: `dev`, `stage`, `prod` в зависимости от окружения
-   2. [Secret](../deploy/chart/templates/secret.yaml) для секретных переменных окружения ([ENVIRONMENT_FROM_SECRET](../app/config.py))
-      1. Секреты должны шифроваться любым способом доступным для k8s (например: `helm-secrets`)
-      2. Секрет `ENVIRONMENT_FROM_SECRET` должен иметь значения: `secret_dev`, `secret_stage`, `secret_prod` в зависимости от окружения
-   3. [Deployment](../deploy/chart/templates/deployment.yaml), который будет 
-      1. Запускать 2 реплики приложения
-      2. Работать на `8000` порте
-      2. Прокидывать в контейнер `ConfigMap` и `Secret`
-      3. Иметь readiness и liveness probes по эндпоинту `/healthcheck`
-   4. [Service](../deploy/chart/templates/service.yaml) типа ClusterIP
-   5. [Ingress](../deploy/chart/templates/ingress.yaml) для nginx сервера, который должен сконфигурирован для хостов
+3. Write a Helm chart in which
+   1. [Configmap](../deploy/chart/templates/configmap.yaml) for environment variables ([ENVIRONMENT](../app/config.py))
+      1. The variable `ENVIRONMENT` should have values: `dev`, `stage`, `prod` depending on the environment.
+   2. [Secret](../deploy/chart/templates/secret.yaml) for secret environment variables ([ENVIRONMENT_FROM_SECRET](../app/config.py))
+      1. Secrets should be encrypted using any method available for k8s (e.g., `helm-secrets`)
+      2. The secret `ENVIRONMENT_FROM_SECRET` should have values: `secret_dev`, `secret_stage`, `secret_prod` depending on the environment.
+   3. [Deployment](../deploy/chart/templates/deployment.yaml), which will
+      1. Start 2 replicas of the application
+      2. Work on port `8000`
+      3. Inject `ConfigMap` and `Secret` into the container
+      4. Have readiness and liveness probes on the `/healthcheck` endpoint
+   4. [Service](../deploy/chart/templates/service.yaml) of type ClusterIP
+   5. [Ingress](../deploy/chart/templates/ingress.yaml) for the nginx server, which should be configured for hosts
       1. dev - localhost
       2. stage - farforstaging.ru
       3. prod - farfor.ru
-   6. [CertManager](../deploy/chart/templates/certmanager.yaml) в котором
-      1. `Issuer` для выписывания сертификатов acme-letsencrypt через `http01.ingess`
-      2. `Certificate` - соответствующий сертификат связанный с `Issuer` для доменов окружений `stage` и `prod`
-      - P.S. Ествественно не нужно пытаться выписывать сертификаты, только написать манифесты
-   7. [HorizontalPodAutoscaler](../deploy/chart/templates/hpa.yaml), который будет
-      1. Скейлить реплики от 2 до 4
-      2. Триггер для скейла будет использование CPU или ОЗУ в 80%
-   8. [_helpers.tpl](../deploy/chart/templates/_helpers.tpl), в котором определить шаблоны для
-      1. `selectorlabels`, в котором определить селекторные метки `app` и `release`
-      2. `labels` включающий в себя `selectorLabels`, в котором определить общие метки `chart` и `version` + `selectorLabels`
-      и использовать шаблоны в нужных местах в чарте
-   9. [helmfile](../deploy/helmfile.yaml) для трех (`dev`, `stage`, `prod`) окружений
-   10. Максимально использовать общие переменные и переиспользовать переменные окружений по необходимости 
-   11. Написать полную пошаговую инструкцию по сборке приложения и запуску через minikube
+   6. [CertManager](../deploy/chart/templates/certmanager.yaml) in which
+      1. `Issuer` for issuing acme-letsencrypt certificates through `http01.ingress`
+      2. `Certificate` - the corresponding certificate associated with `Issuer` for environment domains `stage` and `prod`
+      - P.S. Naturally, there is no need to attempt to issue certificates, just write manifests
+   7. [HorizontalPodAutoscaler](../deploy/chart/templates/hpa.yaml), which will
+      1. Scale replicas from 2 to 4
+      2. The scaling trigger will be CPU or memory usage at 80%
+   8. [_helpers.tpl](../deploy/chart/templates/_helpers.tpl), where you define templates for
+      1. `selectorLabels`, where you define selector labels `app` and `release`
+      2. `labels` including `selectorLabels`, where you define common labels `chart` and `version` + `selectorLabels`
+      and use templates in the appropriate places in the chart
+   9. [helmfile](../deploy/helmfile.yaml) for three (`dev`, `stage`, `prod`) environments
+   10. Use common variables to the maximum and reuse environment variables as needed
+   11. Write a step-by-step guide for building the application and running it through minikube.
 
-## Итог
-Приложение должно:
-   1. Собираться через Dockerfile
-   2. Запускаться через minikube
-   3. Работать по адресу http://0.0.0.0:8000/ и отображать значение переменной `ENVIRONMENT` в ответе
-   4. По адресу http://0.0.0.0:8000/docs отображать значение переменной `ENVIRONMENT_FROM_SECRET` в заголовке страницы
+## Result
+The application should:
+   1. Be built via Dockerfile
+   2. Start via minikube
+   3. Work at http://0.0.0.0:8000/ and display the value of the `ENVIRONMENT` variable in the response
+   4. At http://0.0.0.0:8000/docs, display the value of the `ENVIRONMENT_FROM_SECRET` variable in the page header
 
-Подготовлены файлы конфигураций для всех окружений
+Configuration files are prepared for all environments.
