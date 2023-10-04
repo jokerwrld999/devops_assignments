@@ -1,6 +1,6 @@
 # DevOps Developer Test Task
 
-You have an application called "hello-world" written in Python with FastAPI, which returns the string "Hello World <environment>!", where `<environment>` may vary based on the context or settings.
+You have an application called "hello-world" written in Python with FastAPI, which returns the string "Hello World `<environment>`!", where `<environment>` may vary based on the context or settings.
 
 ## Tasks
 
