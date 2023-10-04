@@ -1,7 +1,7 @@
-# Тестовое задание DevOps разработчик
+# Test Task DevOps
 
-1. [Первичная установка](docs/project_install.md)
-2. [Задание](docs/assignment.md)
+1. [Initial Setup](docs/project_install.md)
+2. [Task](docs/assignment.md)
 
 # Minikube installation
 Installation: https://minikube.sigs.k8s.io/docs/start/
